@@ -24,8 +24,9 @@ function mousePressed() {
 
 function mouseReleased() {
 	takingInput = time = 0;
-	circles = dft(shape);
+	circles = fft(shape);
 	n = circles.length;
+	console.log(circles);
 	circles.sort((a, b) => b.r - a.r);
 	skip = circles.length;
 }
@@ -37,11 +38,10 @@ function drawCircles(circles) {
 	for (let i = 0; i < skip; i+=1) {
 		ellipse(px, py, 2*circles[i].r);
 		px += circles[i].r*cos(circles[i].w*time+circles[i].p);
-		// -= to invert y axis
 		py += circles[i].r*sin(circles[i].w*time+circles[i].p);
 		vertex(px, py);
 	}
-	return {px, py};
+	return new ComplexNumber(px, py);
 }
 
 function draw() {
@@ -52,15 +52,15 @@ function draw() {
 	stroke(WHITE);
 	beginShape();
 	if(takingInput == 1) {
-		shape.push({x:mouseX-WIDTH/2, y:mouseY-HEIGHT/2});
+		shape.push(new ComplexNumber(mouseX - (WIDTH / 2), mouseY - (HEIGHT / 2)));
 		for (let k = 0; k < shape.length; k++) {
-			vertex(shape[k].x, shape[k].y);
+			vertex(shape[k].re, shape[k].im);
 		}
 	}
 	else if(takingInput == 0) {
 		let p = drawCircles(circles);
 		for (let k = wave.length - 1; k >= 0; k--) {
-			vertex(wave[k].px, wave[k].py);
+			vertex(wave[k].re, wave[k].im);
 		}
 		wave.push(p);
 	}

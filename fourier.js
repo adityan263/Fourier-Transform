@@ -4,13 +4,13 @@ function dft(f) {
 	
 	const n = f.length;
 	for (let x = 0; x < n; x++) {
-		var x1, y1;
-		x1 = y1 = 0;
+		var t = new ComplexNumber(0, 0);
 		for (let k = 0; k < n; k++) {
-			x1 += f[k].x * cos(2*PI*k*x/n) - f[k].y * sin(-2*PI*k*x/n);
-			y1 += f[k].x * sin(-2*PI*k*x/n) + f[k].y * cos(2*PI*k*x/n);
+			let c = CreateComplexFromTheta(-2 * PI * k * x / n);
+			c = c.mult(f[k]);
+			t = t.add(c);
 		}
-		F[x] = {r:sqrt(x1*x1+y1*y1)/n, w:x, p:atan2(y1,x1)};
+		F[x] = {r:t.getScaledRadius(n), w:x, p:t.getPhase()};
 	}
 	return F;
 }
@@ -24,9 +24,7 @@ function fft(f) {
 	n += x;
 	F = actual_fft(f);
 	for (let i = 0; i < n; i++) {
-		let x1 = F[i].x;
-		let y1 = F[i].y;
-		F[i] = {r:sqrt(x1*x1+y1*y1)/n, w:i, p:atan2(y1,x1)};
+		F[i] = {r:F[i].getScaledRadius(n), w:i, p:F[i].getPhase()};
 	}
 	return F;
 }
@@ -47,12 +45,10 @@ function actual_fft(f) {
 	let Fodd = actual_fft(odd);
 	let Feven = actual_fft(even);
 	for (let i = 0; i < n/2; i++) {
-		let re = cos(2*-PI*i/n) * Fodd[i].x - sin(2*-PI*i/n) * Fodd[i].y;
-		let im = sin(2*-PI*i/n) * Fodd[i].x + cos(2*-PI*i/n) * Fodd[i].y;
-		F[i].x = Feven[i].x + re;
-		F[i].y = Feven[i].y + im;
-		F[i+n/2].x = Feven[i].x - re;
-		F[i+n/2].y = Feven[i].y - im;
+		let c = CreateComplexFromTheta(-2 * PI * i / n);
+		c = c.mult(Fodd[i]);
+		F[i] = Feven[i].add(c);
+		F[i + n / 2] = Feven[i].sub(c);
 	}
 	return F;
 }
