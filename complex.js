@@ -22,8 +22,11 @@ class ComplexNumber {
 		return sqrt(this.re * this.re + this.im * this.im) / n;
 	}
 
+	getCircle(n, i) {
+		return {r:this.getScaledRadius(n), w:i, p:this.getPhase()};
+	}
+
 	getPhase() {
-		if(this.re)
 		return atan2(this.im, this.re);
 	}
 }

@@ -3,7 +3,7 @@ const BLACK = 0;
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 const DELTAX = 0;
-let time = x = y = 0;
+let time = 0;
 let wave = [];
 let shape = [];
 let circles = [];
@@ -26,7 +26,6 @@ function mouseReleased() {
 	takingInput = time = 0;
 	circles = fft(shape);
 	n = circles.length;
-	console.log(circles);
 	circles.sort((a, b) => b.r - a.r);
 	skip = circles.length;
 }
@@ -35,10 +34,10 @@ function drawCircles(circles) {
 	let px, py;
 	px = py = 0;
 	vertex(0, 0);
-	for (let i = 0; i < skip; i+=1) {
-		ellipse(px, py, 2*circles[i].r);
-		px += circles[i].r*cos(circles[i].w*time+circles[i].p);
-		py += circles[i].r*sin(circles[i].w*time+circles[i].p);
+	for (let i = 0; i < skip; i += 1) {
+		ellipse(px, py, 2 * circles[i].r);
+		px += circles[i].r * cos(circles[i].w * time + circles[i].p);
+		py += circles[i].r * sin(circles[i].w * time + circles[i].p);
 		vertex(px, py);
 	}
 	return new ComplexNumber(px, py);
@@ -47,7 +46,7 @@ function drawCircles(circles) {
 function draw() {
 	background(BLACK);
 	//To move everything to centre
-	translate(WIDTH/2-DELTAX, HEIGHT/2);
+	translate((WIDTH / 2) - DELTAX, HEIGHT / 2);
 	noFill();
 	stroke(WHITE);
 	beginShape();
@@ -67,5 +66,5 @@ function draw() {
 	endShape();
 	if (wave.length == circles.length)
 		wave = [];
-	time += 2*PI/circles.length;
+	time += (2 * PI / circles.length);
 }
