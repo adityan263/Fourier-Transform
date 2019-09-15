@@ -12,7 +12,6 @@ let takingInput = 2;
 
 function setup() {
 	createCanvas(WIDTH, HEIGHT);
-	console.log(circles);
 }
 
 function mousePressed() {
@@ -25,10 +24,22 @@ function mousePressed() {
 
 function mouseReleased() {
 	takingInput = time = 0;
-	circles = dft(shape);	
+	let n = shape.length;
+	let x = pow(2,int(log(n)/log(2))+1) - n;
+	for (let i = 0; i < x; i++)
+		shape.push(shape[n-1]);
+	n = shape.length;
+	//circle1 = dft(shape);
+	circles = fft(shape);
+	for (let i = 0; i < n; i++) {
+		let x1 = circles[i].x;
+		let y1 = circles[i].y;
+		circles[i] = {r:sqrt(x1*x1+y1*y1)/n, w:i, p:atan2(y1,x1)};
+	}
 	circles.sort((a, b) => b.r - a.r);
+	//circle1.sort((a, b) => b.r - a.r);
 	skip = circles.length;
-	console.log(shape);
+	//console.log(circle1);
 	console.log(circles);
 }
 
@@ -43,7 +54,7 @@ function mouseReleased() {
 //	inp.value(skip);
 //}
 
-function drawCircles() {
+function drawCircles(circles) {
 	let px, py;
 	px = py = 0;
 	vertex(0, 0);
@@ -71,7 +82,7 @@ function draw() {
 		}
 	}
 	else if(takingInput == 0) {
-		let p = drawCircles();
+		let p = drawCircles(circles);
 		for (let k = wave.length - 1; k >= 0; k--) {
 			vertex(wave[k].px, wave[k].py);
 		}

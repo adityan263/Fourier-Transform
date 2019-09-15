@@ -14,3 +14,29 @@ function dft(f) {
 	}
 	return F;
 }
+
+function fft(f) {
+	const n = f.length;
+	if (n == 1)
+		return f;
+	let odd = [];
+	let even = [];
+	let F = [];
+	for (let i = 0; i < n/2; i++) {
+		even.push(f[2*i]);
+		odd.push(f[2*i+1]);
+		F.push({});
+		F.push({});
+	}
+	let Fodd = fft(odd);
+	let Feven = fft(even);
+	for (let i = 0; i < n/2; i++) {
+		let re = cos(2*-PI*i/n) * Fodd[i].x - sin(2*-PI*i/n) * Fodd[i].y;
+		let im = sin(2*-PI*i/n) * Fodd[i].x + cos(2*-PI*i/n) * Fodd[i].y;
+		F[i].x = Feven[i].x + re;
+		F[i].y = Feven[i].y + im;
+		F[i+n/2].x = Feven[i].x - re;
+		F[i+n/2].y = Feven[i].y - im;
+	}
+	return F;
+}
