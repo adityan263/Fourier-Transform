@@ -1,10 +1,12 @@
 # Fourier Transform
 - https://en.wikipedia.org/wiki/Fourier_transform
-3Blue1Brown
+
+### 3Blue1Brown
 - https://www.youtube.com/watch?v=spUNpyF58BY
 - https://www.youtube.com/watch?v=r6sGWTCMz2k&t=112s
 - https://www.youtube.com/watch?v=-qgreAUpPwM
-Lecture Series:
+
+### Lecture Series:
 - https://www.youtube.com/playlist?list=PLB24BC7956EE040CD
 
 ## Requirements:
