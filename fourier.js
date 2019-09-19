@@ -14,9 +14,13 @@ function dft(f) {
 	return F;
 }
 
-function fft(f) {
-	let n = f.length;
+function fft(f_original) {
+	let n = f_original.length;
+	let f = [];
 	let x = pow(2, int(log(n) / log(2)) + 1) - n;
+	//because we don't want to change original list 
+	for (let i = 0; i < n; i++)
+		f.push(f_original[i]);
 	// padding
 	for (let i = 0; i < x; i++)
 		f.push(f[n - 1]);
@@ -30,6 +34,8 @@ function actual_fft(f) {
 	const n = f.length;
 	if (n == 1)
 		return f;
+	else if (n == 0)
+		return [];
 	let F = [];
 	let odd = f.filter((x, i) => (i % 2) && (F.push({})));
 	let even = f.filter((x, i) => (i + 1) % 2);
