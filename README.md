@@ -11,6 +11,3 @@
 
 ## Requirements:
 https://p5js.org/
-
-## TODO:
-- Add option to switch between waveform and custom input page
